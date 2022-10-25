@@ -91,19 +91,21 @@ function getCostPaintedSt(W,H){
 }
 
 function MaterialCostGSA20(W,H){
+  var res = 0
   if(W<20 && H<20){
     //FINS COST /DEFL. X 2 + (W +H+4”)COST OF PAINTED 2”L. FRAME + W X H X 0.004 P.SQ.IN.
-    return getCostPaintedSt(W,H) * 2 + (W + H + 4) * 2 * DD_FRAME_EXTR_PPTD / 12 + W * H * 0.004
+    res = getCostPaintedSt(W,H) * 2 + (W + H + 4) * 2 * DD_FRAME_EXTR_PPTD / 12 + W * H * 0.004
   }
   else if(W<20 && H>=20){
-    return getCostPaintedSt(W,H) * 2 + W  * 0.04 + (W + H + 4) * 2 * DD_FRAME_EXTR_PPTD / 12 + W * H * 0.004
+    res = getCostPaintedSt(W,H) * 2 + W  * 0.04 + (W + H + 4) * 2 * DD_FRAME_EXTR_PPTD / 12 + W * H * 0.004
   }
   else if(W>=20 && H<20){
-    return getCostPaintedSt(W,H) * 2 + H * 0.04 + (W + H + 4) * 2 * DD_FRAME_EXTR_PPTD / 12 + W * H * 0.004
+    res = getCostPaintedSt(W,H) * 2 + H * 0.04 + (W + H + 4) * 2 * DD_FRAME_EXTR_PPTD / 12 + W * H * 0.004
   }
   else{
-    return getCostPaintedSt(W,H) * 2 + (W + H)  * 0.04 + (W + H + 4) * 2 * DD_FRAME_EXTR_PPTD / 12 + W * H * 0.004
+    res = getCostPaintedSt(W,H) * 2 + (W + H)  * 0.04 + (W + H + 4) * 2 * DD_FRAME_EXTR_PPTD / 12 + W * H * 0.004
   }
+  return subtractValueNum(res)
 }
 
 function getCostGSA20(W, H){
@@ -120,7 +122,7 @@ function getLayersGSA20(W, H) {
       subLayers: [],
     },
     {
-      name: 'GSA20',
+      name: 'LaborGSA20',
       value: LaborCostGSA20(W, H),
       subLayers: [],
     },

@@ -17,7 +17,7 @@ function File() {
     <>
       <button onClick={() => console.log(oldValues)}/>
       <div className="header">
-        <Dropdown roots={roots} setRoot={setRoot} setDescription={setDescription} setActiveLayer={setActiveLayer}/>
+        <Dropdown roots={roots} setLayers={setLayers} setRoot={setRoot} setDescription={setDescription} setActiveLayer={setActiveLayer}/>
         <h3>{description}</h3>
       </div>
       <div className="container">
