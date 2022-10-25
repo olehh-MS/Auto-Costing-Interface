@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Dropdown from './Dropdown'
 import Layers from './Layers'
-import CalculateTable from './CalculateTable'
+import BuildTable from './BuildTable'
 import { roots } from './Db'
 
 function File() {
@@ -17,11 +17,11 @@ function File() {
     <>
       <button onClick={() => console.log(oldValues)}/>
       <div className="header">
-        <Dropdown roots={roots} setRoot={setRoot} setDescription={setDescription} />
+        <Dropdown roots={roots} setRoot={setRoot} setDescription={setDescription} setActiveLayer={setActiveLayer}/>
         <h3>{description}</h3>
       </div>
       <div className="container">
-        <CalculateTable setLayers={setLayers} root={root} activeLayer={activeLayer} oldValues={oldValues} />
+        <BuildTable setLayers={setLayers} root={root} activeLayer={activeLayer} oldValues={oldValues} />
         <Layers activeLayer={activeLayer} root={root} layers={layers} oldValues={oldValues} setOldValues={setOldValues} setActiveLayer={setActiveLayer} setEdit={setEdit} />
       </div>
     </>

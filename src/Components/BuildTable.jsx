@@ -3,10 +3,11 @@ import { width, height } from './Db'
 import _ from 'lodash'
 import {
   getLayersN7,
+  getLayersGSA20,
   createTable,
 } from './Calculation'
 
-function CalculateTable({ setLayers, root, activeLayer, edit, oldValues }) {
+function BuildTable({ setLayers, root, activeLayer, edit, oldValues }) {
   const [selected, setSelected] = useState([])
 
   const selectSingle = (item) => {
@@ -29,12 +30,19 @@ function CalculateTable({ setLayers, root, activeLayer, edit, oldValues }) {
     if (e.ctrlKey) {
       e.target.classList.toggle('active')
       selectSingle({ height: i, width: j })
-    } else {
-      document.querySelectorAll('.active').forEach((element) => {
-        element.classList.remove('active')
-      })
+    } 
+    else {
+      document.querySelectorAll('.active').forEach((element) => element.classList.remove('active'))
       e.target.classList.toggle('active')
-      setLayers(getLayersN7(height, width))
+      
+      switch(root){
+        case "GSA20":
+          setLayers(getLayersGSA20(height, width))
+          break;
+        default:
+          setLayers(getLayersN7(height, width))
+      }
+      
     }
   }
 
@@ -76,4 +84,4 @@ function CalculateTable({ setLayers, root, activeLayer, edit, oldValues }) {
     </table>
   )
 }
-export default CalculateTable
+export default BuildTable

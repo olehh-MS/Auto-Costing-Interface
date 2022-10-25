@@ -18,7 +18,7 @@ function Layers({ root, layers, oldValues, setOldValues, activeLayer, setActiveL
             i.innerHTML = e.target.value
         })
     }
-
+    
   return (
     <div className='right-content'>
       <div className="layers">
