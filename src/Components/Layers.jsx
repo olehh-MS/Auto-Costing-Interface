@@ -1,9 +1,26 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from 'axios'
 
-function Layers({ root, layers, oldValues, setOldValues, activeLayer, setActiveLayer, setEdit }) {
+function Layers({ loadLayers, layers, setLayers, setLoadLayers, activeLayer, setActiveLayer, selected, oldValues, setOldValues}) {
+
+  
+  
+//add condition
+  useEffect(() => {
+    if(selected[0] !== undefined){
+      axios.get('https://localhost:7002/GetLayers/' 
+        + selected[0].activeLayer + '/' + selected[0].width + '/' + selected[0].height, {
+              headers: {},
+          }).then(function (response) {
+            setLayers(response.data)
+            
+            if(activeLayer)
+              setLoadLayers(false)
+          })
+    }
+  })
+
   function canEdit(e,layerName) {
-    setActiveLayer(layerName)
-    setEdit(true)
     document.querySelectorAll('.active-layer').forEach((element) => {
         element.classList.remove('active-layer')
       })
@@ -28,11 +45,9 @@ function Layers({ root, layers, oldValues, setOldValues, activeLayer, setActiveL
               document.querySelectorAll('.active-layer').forEach((element) => {
                 element.classList.remove('active-layer')
               })
-              setActiveLayer(root)
-              setEdit(false)
             }}
           >
-            {root}
+            {activeLayer?.name}
           </h2>
         </div>
         {layers.map((l, index) => (
@@ -64,7 +79,7 @@ function Layers({ root, layers, oldValues, setOldValues, activeLayer, setActiveL
       </div>
       <div className="footer">
     
-        <input className='changecostinput' onChange={(e)=>{inputHandler(e)}} type="hidden" name="" id="" placeholder='Enter new value'/>
+        <input className='changecostinput' onChange={(e)=>{inputHandler(e)}} placeholder='Enter new value'/>
        
       </div>
     </div>

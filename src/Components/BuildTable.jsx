@@ -1,48 +1,48 @@
-import React, { useState } from 'react'
-import { width, height } from './Db'
-import _ from 'lodash'
-import {
-  getLayersN7,
-  getLayersGSA20,
-  createTable,
-} from './Calculation'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
-function BuildTable({ setLayers, root, activeLayer, edit, oldValues }) {
-  const [selected, setSelected] = useState([])
+function BuildTable({ loadTable, setLoadTable, selected, setSelected, activeLayer, oldValues }) {
+  const [load, setLoad] = useState(true)
+  const [widthes, setWidthes] = useState()
+  const [heightes, setHeightes] = useState()
+  const [table, setTable] = useState()
 
-  const selectSingle = (item) => {
-    let selectedIds = Object.assign([], selected)
+  useEffect(() => {
+    if(load){
+      axios.get('https://localhost:7002/GetWidthHeight', {
+              headers: {},
+          }).then(function (response) {
+            setWidthes(response.data.width)
+            setHeightes(response.data.height)
+            setLoad(false)
+          })
+    }
+    if(loadTable){
+      axios.get('https://localhost:7002/CreateTable/' + activeLayer?.name, {
+              headers: {},
+          }).then(function (response) {
+            setTable(response.data)
+            if(activeLayer)
+              setLoadTable(false)
+          })
+    }
+  })
 
-    if (_.findIndex(selectedIds, { id: item.id }) === -1) {
-      selectedIds.push(item)
-    } else {
-      selectedIds.splice(_.findIndex(selectedIds, { id: item.id }), 1)
+  const clickHandler = (e, selected, setSelected) => {
+    
+    var cell = {
+      activeLayer: activeLayer.id,
+      width: e.target.getAttribute("id").split('-')[0],
+      height: e.target.getAttribute("id").split('-')[1],
     }
 
-    setSelected(selectedIds)
-  }
-
-  function check(e, height, width, i, j) {
-    document.querySelector('.changecostinput').setAttribute('type', 'text')
-    document.querySelector('.changecostinput').value = ""
-
-
     if (e.ctrlKey) {
+      setSelected([...selected, cell])
       e.target.classList.toggle('active')
-      selectSingle({ height: i, width: j })
-    } 
-    else {
+    } else {
+      setSelected([cell])
       document.querySelectorAll('.active').forEach((element) => element.classList.remove('active'))
       e.target.classList.toggle('active')
-      
-      switch(root){
-        case "GSA20":
-          setLayers(getLayersGSA20(height, width))
-          break;
-        default:
-          setLayers(getLayersN7(height, width))
-      }
-      
     }
   }
 
@@ -51,35 +51,22 @@ function BuildTable({ setLayers, root, activeLayer, edit, oldValues }) {
       <thead>
         <tr className="height">
           <td>Inch</td>
-          {width.map((point, index) => (
-            <td>{point}</td>
+          {widthes?.map((e, i) => (
+            <td key={i}>{e}</td>
           ))}
         </tr>
+        {heightes?.map((e, i) => (
+          <tr key={i}>
+            <td>{heightes[i]}</td>
+            {table[i].map((j, k) => (
+              <td key={k} id={widthes[k]+"-"+heightes[i]} onClick={(e) => clickHandler(e, selected, setSelected)}>{j}</td>
+            ))}
+          </tr>
+        ))}
       </thead>
 
       <tbody>
-        {createTable(height, width, activeLayer).map((row, i) => {
-          return (
-            <tr key={i}>
-              <td>{height[i]}</td>
-              {row.map((cell, j) => {
-                if (typeof cell === 'string') {
-                  return <td> </td>
-                } else {
-                  return (
-                    <td id={"cellW"+i+"H"+j}
-                      onClick={(e) => check(e, width[j], height[i], i, j)}
-                      key={j}
-                    >
-                      {/*oldValues.find((k) => k.el === document.querySelector("#cell"+i+""+j) && k.lay === activeLayer) ? "red" : "green"*/}
-                      {cell}
-                    </td>
-                  )
-                }
-              })}
-            </tr>
-          )
-        })}
+        
       </tbody>
     </table>
   )

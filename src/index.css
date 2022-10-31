@@ -1,106 +1,59 @@
-body {
+*{
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  height: 100vh;
-  padding: 20px 0;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-form {
-  display: flex;
-  margin-right: 20px;
-}
-
-.header {
-  display: flex;
-  justify-content: center;
-}
-
-h3 {
-  margin: 0;
-}
-
-.width {
-  display: flex;
-  flex-direction: column;
-}
-
-table,
-th,
-td {
-  border: 1px solid #aaa9a947 !important;
-  border-collapse: collapse;
-  font-style: normal;
-  text-align: center;
-
-}
-
-.width-head {
-  align:left;
-}
-
-.right-content{
-  display: flex;
-  flex-direction: column;
-}
-
-.width-head td{
-}
-
-table {
-  margin-top: 20px;
-}
-
-input{
-  width: 100%;
-  text-align: center;
-  background: none;
+  padding: 0;
   outline: none;
+  box-sizing: border-box;
 }
 
-td {
-  min-width: 46px;
+
+
+/* Nav Bar */
+
+.navBar{
+  background-color: rgb(214, 214, 214);
+  padding: 10px 100px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navBar-Title{}
+
+.navBar-menu{}
+
+.navBar-menu ul{
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.navBar-menu ul li{
+  margin-right: 20px;
   cursor: pointer;
 }
 
-.layers{
+
+
+/* Raw Materials Table */
+
+.rawMaterialsTable{}
+
+.rawMaterialsTable-Name{
+  margin: 10px;
+  font-size: 40px;
+}
+
+.rawMaterialsTable-Button{
+  font-size: 30px;
+}
+
+.rawMaterialsTable table{
+  margin: 10px auto;
+  border-collapse: collapse;
+}
+
+.rawMaterialsTable table tr th, .rawMaterialsTable table tr td{
   border: 1px solid black;
-  padding: 20px;
-  width: 200px;
+  padding: 5px 10px;
 }
 
-.active-layer{
-  color: rgb(224, 6, 6);
-}
-.layer{
-  display: flex;
-  justify-content: space-between;
-  color: #000;
-}
 
-.subLayer{
-  margin-left: 10px;
-  display: none;
-  color: #000;
-}
-
-.active-layer .subLayer{
-  display: flex;
-}
-
-.container{
-  display: flex;
-    justify-content: space-around;
-}
-
-.active{
-  background-color: #b5b5d5;
-}
